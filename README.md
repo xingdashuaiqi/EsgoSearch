@@ -1,2 +1,9 @@
-# EsgoSearch
-# EsgoSearch
+基于go的colly爬虫框架和Elasticsearch实现的分布式搜索引擎,能对页面内容以及页面的超链接内的内容进行深层检索,相比于普通搜索更加灵活,通过前端爬虫开发,确保数据从各个来源高效地收集和索引到Elasticsearch中,结合Elasticsearch构建分布式搜索引擎，用于快速灵活的检索和分析大规模数据。
+前端程序采用react类组件式开发,对检索后的内容有更灵活更美观的数据渲染和展示,达到功能和展示完全相等于百度搜索的效果
+技术栈
+编程语言：Go
+数据检索服务：Elasticsearch服务
+数据库：mysql
+数据采集工具：Colly
+前端开发: react16.8版本
+
