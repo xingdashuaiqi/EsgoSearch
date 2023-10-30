@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Crawler</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #3385ff;
+            color: white;
+            padding: 20px;
+            margin: 0;
+        }
+
+        #search-form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #query {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 60%;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #3385ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0066cc;
+        }
+
+        h2 {
+            margin-top: 20px;
+            padding-left: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin: 10px;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        a {
+            text-decoration: none;
+            color: #3385ff;
+        }
+
+        span {
+            float: right;
+            font-size: 14px;
+            color: #666;
+        }
+
+        li:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .no-results {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Web Crawler</h1>
+    
+    <!-- 搜索表单 -->
+    <form id="search-form">
+        <label for="query">请输入搜索关键字：</label>
+        <input type="text" id="query" name="query" required>
+        <button type="submit">搜索</button>
+    </form>
+    
+    <!-- 搜索结果 -->
+    <h2>搜索结果：</h2>
+    <ul id="results-list"></ul>
+    
+    <script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchForm = document.getElementById('search-form');
+            const queryInput = document.getElementById('query');
+            const resultsList = document.getElementById('results-list');
+            
+            searchForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const query = queryInput.value.trim();
+                
+                if (query !== '') {
+                    fetch(`/search?query=${encodeURIComponent(query)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log("Received data:", data);
+                            resultsList.innerHTML = '';
+    
+                            if (data && data.length > 0) {
+                                data.forEach(result => {
+                                    const title = result.title;
+                                    const date = result.date; // 获取日期
+                                    const url = result.url;
+    
+                                    const listItem = document.createElement('li');
+                                    const titleElement = document.createElement('a');
+                                    titleElement.href = url;
+                                    titleElement.textContent = title;
+                                    
+                                    const dateElement = document.createElement('span'); // 创建日期元素
+                                    dateElement.textContent = date; // 设置日期内容
+    
+                                    listItem.appendChild(titleElement);
+                                    listItem.appendChild(dateElement); // 将日期元素追加到列表项
+                                    resultsList.appendChild(listItem);
+                                });
+                            } else {
+                                const listItem = document.createElement('li');
+                                listItem.textContent = '未找到相关结果';
+                                resultsList.appendChild(listItem);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching search results:', error);
+                            resultsList.innerHTML = '发生错误，请稍后重试。';
+                        });
+                }
+            });
+        });
+    </script>
+    </script>
+</body>
+</html>
